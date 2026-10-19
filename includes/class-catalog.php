@@ -196,7 +196,8 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Catalog' ) ) {
 		 */
 		public function get_package_by_download_url( $url ) {
 			foreach ( $this->get_packages() as $package ) {
-				if ( self::get_download_url( $package ) === $url ) {
+				// The raw dist URL still matches links WordPress cached before the codeload rewrite.
+				if ( self::get_download_url( $package ) === $url || $package->get_dist_url() === $url ) {
 					return $package;
 				}
 			}
@@ -208,7 +209,29 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Catalog' ) ) {
 		 * The download URL we hand to WordPress for a package.
 		 */
 		public static function get_download_url( UCF_Plugin_Directory_Package $package ) {
-			return (string) apply_filters( 'ucf_plugin_directory_download_url', $package->get_dist_url(), $package );
+			return (string) apply_filters( 'ucf_plugin_directory_download_url', self::to_codeload_url( $package->get_dist_url() ), $package );
+		}
+
+		/**
+		 * Rewrites GitHub zipball and archive links to the equivalent
+		 * codeload.github.com URL. Zipball links on api.github.com count
+		 * against the REST API limit (60 an hour per IP address without a
+		 * token) and only redirect to codeload anyway; codeload itself
+		 * sends no rate-limit headers. Other URLs are returned unchanged.
+		 */
+		public static function to_codeload_url( $url ) {
+			$patterns = array(
+				'#^https://api\.github\.com/repos/([^/]+)/([^/]+)/zipball/([^/?\#]+)$#i',
+				'#^https://github\.com/([^/]+)/([^/]+)/archive/([^/?\#]+)\.zip$#i',
+			);
+
+			foreach ( $patterns as $pattern ) {
+				if ( preg_match( $pattern, (string) $url, $matches ) ) {
+					return sprintf( 'https://codeload.github.com/%s/%s/zip/%s', $matches[1], $matches[2], $matches[3] );
+				}
+			}
+
+			return $url;
 		}
 
 		public function is_empty() {

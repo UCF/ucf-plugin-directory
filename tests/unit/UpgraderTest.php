@@ -13,12 +13,31 @@ class UpgraderTest extends TestCase {
 		$this->upgrader = new UCF_Plugin_Directory_Upgrader( $this->catalog );
 	}
 
+	/**
+	 * The URL WordPress is handed, i.e. after the codeload rewrite.
+	 */
 	private function faq_url() {
-		return $this->catalog->get_package( 'ucf/ucf-faq-cpt' )->get_dist_url();
+		return UCF_Plugin_Directory_Catalog::get_download_url( $this->catalog->get_package( 'ucf/ucf-faq-cpt' ) );
 	}
 
 	public function test_allowlisted_catalog_download_passes_through() {
+		$this->assertStringStartsWith( 'https://codeload.github.com/UCF/UCF-FAQ-CPT/zip/', $this->faq_url() );
 		$this->assertFalse( $this->upgrader->pre_download( false, $this->faq_url(), null, array( 'type' => 'plugin', 'action' => 'install' ) ) );
+	}
+
+	public function test_api_zipball_links_cached_before_the_rewrite_are_still_renamed() {
+		global $wp_filesystem;
+		$wp_filesystem = new class() {
+			public function move( $from, $to ) {
+				return true;
+			}
+		};
+
+		$legacy = $this->catalog->get_package( 'ucf/ucf-faq-cpt' )->get_dist_url();
+		$this->assertStringStartsWith( 'https://api.github.com/', $legacy );
+
+		$this->assertFalse( $this->upgrader->pre_download( false, $legacy, null, array( 'type' => 'plugin', 'action' => 'install' ) ) );
+		$this->assertSame( '/tmp/upgrade/abc/ucf-faq-cpt/', $this->upgrader->source_selection( '/tmp/upgrade/abc/UCF-UCF-FAQ-CPT-6fc68d9/', '/tmp/upgrade/abc', null, array() ) );
 	}
 
 	public function test_non_allowlisted_download_is_refused_with_readable_error() {
@@ -87,7 +106,8 @@ class UpgraderTest extends TestCase {
 		};
 
 		$this->upgrader->pre_download( false, $this->faq_url(), null, $hook_extra );
-		$result = $this->upgrader->source_selection( '/tmp/upgrade/abc/UCF-UCF-FAQ-CPT-6fc68d9/', '/tmp/upgrade/abc', null, $hook_extra );
+		// codeload zips extract to <Repo>-<full sha>/.
+		$result = $this->upgrader->source_selection( '/tmp/upgrade/abc/UCF-FAQ-CPT-6fc68d949b3a405d267f1d46b0aad624d6bdab78/', '/tmp/upgrade/abc', null, $hook_extra );
 
 		$this->assertSame( $expected, $result );
 	}

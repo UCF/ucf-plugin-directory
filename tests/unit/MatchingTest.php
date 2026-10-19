@@ -24,7 +24,7 @@ class MatchingTest extends TestCase {
 		$update = $updater->update_by_uri( false, array( 'UpdateURI' => 'https://packagist.org/packages/ucf/ucf-faq-cpt' ), 'UCF-FAQ-CPT/ucf-faq.php' );
 		$this->assertSame( '2.2.1', $update['version'] );
 		$this->assertSame( 'ucf-faq-cpt', $update['slug'] );
-		$this->assertStringStartsWith( 'https://api.github.com/repos/UCF/UCF-FAQ-CPT/zipball/', $update['package'] );
+		$this->assertStringStartsWith( 'https://codeload.github.com/UCF/UCF-FAQ-CPT/zip/', $update['package'] );
 
 		$this->assertFalse( $updater->update_by_uri( false, array( 'UpdateURI' => 'https://packagist.org/packages/someone-else/foo' ), 'foo/foo.php' ) );
 	}

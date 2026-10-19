@@ -88,7 +88,7 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Settings' ) ) {
 						<?php if ( ! empty( $status['stats'] ) ) : ?>
 						<tr><th scope="row">Last fetch</th><td><?php echo esc_html( sprintf( '%d package files downloaded, %d unchanged (HTTP 304)', $status['stats']['fetched'], $status['stats']['unchanged'] ) ); ?></td></tr>
 						<?php endif; ?>
-						<tr><th scope="row">GitHub token</th><td><?php echo ( defined( 'UCF_PLUGIN_DIRECTORY_GITHUB_TOKEN' ) && UCF_PLUGIN_DIRECTORY_GITHUB_TOKEN ) ? 'Configured' : 'Not configured (downloads are limited to 60 per hour per IP address)'; ?></td></tr>
+						<tr><th scope="row">GitHub token</th><td><?php echo ( defined( 'UCF_PLUGIN_DIRECTORY_GITHUB_TOKEN' ) && UCF_PLUGIN_DIRECTORY_GITHUB_TOKEN ) ? 'Configured' : 'Not configured (not normally needed; downloads use codeload.github.com, which is not subject to the GitHub API limit)'; ?></td></tr>
 						<tr><th scope="row">File modifications</th><td><?php echo wp_is_file_mod_allowed( 'ucf_plugin_directory' ) ? 'Allowed' : 'Disabled (DISALLOW_FILE_MODS); the catalog is read-only on this site'; ?></td></tr>
 					</tbody>
 				</table>

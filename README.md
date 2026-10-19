@@ -54,13 +54,19 @@ All traffic is HTTPS. Package descriptions are treated as plain text and escaped
 
 ## GitHub rate limits
 
-Unauthenticated GitHub API downloads are limited to 60 per hour per IP address, and many UCF sites likely share an egress IP. To raise that, define a token in `wp-config.php`:
+The concern here is not GitHub's capacity. It is the limit GitHub puts on its API: without a token, 60 requests an hour per IP address. Most sites using this plugin will be on Pantheon, where outbound traffic comes from shared addresses on Google Cloud, so one developer updating a dozen sites in an afternoon could hit that limit.
+
+The package metadata links to `api.github.com/repos/UCF/<Repo>/zipball/<sha>`, which counts against that limit and then just redirects to `codeload.github.com`. **The plugin skips the API and downloads from `codeload.github.com/UCF/<Repo>/zip/<sha>` directly.** It is the same file from the same place, and codeload sends no rate-limit headers. We checked this on 2026-10-19: an install and an update through the plugin left the API budget at 60 of 60. GitHub likely applies some unpublished abuse protection to codeload too, so this removes the documented limit, not every possible one.
+
+If downloads do get throttled, the failure is safe. WordPress reports that the download failed, the installed plugin is left as it was, and the update can be retried. As a safety valve, a token can be defined in `wp-config.php`:
 
 ```php
 define( 'UCF_PLUGIN_DIRECTORY_GITHUB_TOKEN', 'github_pat_…' );
 ```
 
-The token is sent only to the allowlisted UCF GitHub URLs, never to the package repository, and it is never stored in the database. A fine-grained token with read-only access to public repositories is enough. Whether we need one depends on how many sites share an egress IP, which we haven't measured.
+The token is sent only to the allowlisted UCF GitHub URLs, never to the package repository, and it is never stored in the database. A fine-grained token with read-only access to public repositories is enough. Every site sharing a token also shares its 5,000-an-hour budget, so we should deploy one only if codeload throttling shows up in practice.
+
+GitHub doesn't count zipball or codeload downloads, so we have no download metrics today. The closest proxy is the repository traffic API, which reports git clones by day for the last 14 days. Across all 79 UCF repos it showed 2,055 clones in the two weeks before 2026-10-19, with a busiest day of 306 — mostly automation and development, we believe, not site installs.
 
 ## Pantheon and `DISALLOW_FILE_MODS`
 

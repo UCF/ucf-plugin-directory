@@ -1,0 +1,20 @@
+{
+    "packages": [],
+    "includes": {
+        "include/all$116d262f588a28a2b24ec6690a8fc77925288b95.json": {
+            "sha1": "116d262f588a28a2b24ec6690a8fc77925288b95"
+        }
+    },
+    "metadata-url": "/ucf-packagist/p2/%package%.json",
+    "available-packages": [
+        "ucf/ucf-faq-cpt",
+        "ucf/colleges-theme",
+        "ucf/section-menus-shortcode",
+        "ucf/github-action-testing",
+        "ucf/main-site-utilities-plugin",
+        "ucf/ucf-lazyload-video-plugin",
+        "ucf/test-minified",
+        "ucf/ucf-cli-tools",
+        "other/not-ours"
+    ]
+}

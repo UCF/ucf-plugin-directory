@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset name="UCF Plugin Directory">
+	<description>WordPress coding standards, matching other UCF plugins (tabs, WordPress spacing).</description>
+	<file>ucf-plugin-directory.php</file>
+	<file>includes</file>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.0"/>
+	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="WordPress">
+		<!-- UCF plugins use class-<name>.php files and no text domain wrapping for admin-only strings. -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.WP.I18n"/>
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+		<exclude name="Squiz.Commenting.FunctionComment"/>
+		<exclude name="Squiz.Commenting.VariableComment"/>
+		<exclude name="Squiz.Commenting.ClassComment"/>
+		<exclude name="Squiz.Commenting.FileComment"/>
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Universal.Operators.DisallowShortTernary"/>
+	</rule>
+</ruleset>

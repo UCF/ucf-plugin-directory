@@ -1,0 +1,11 @@
+{
+	"packages": {
+		"ucf/ucf-faq-cpt": { "type": "wordpress-plugin", "abandoned": false, "repository": "https://github.com/UCF/UCF-FAQ-CPT" },
+		"ucf/colleges-theme": { "type": "wordpress-theme", "abandoned": false, "repository": "https://github.com/UCF/Colleges-Theme" },
+		"ucf/ucf-cli-tools": { "type": "wp-cli-package", "abandoned": false, "repository": "https://github.com/UCF/UCF-CLI-Tools" },
+		"ucf/section-menus-shortcode": { "type": "wordpress-plugin", "abandoned": "ucf/ucf-section-plugin", "repository": "https://github.com/UCF/Section-Menus-Shortcode" },
+		"ucf/github-action-testing": { "type": "wordpress-plugin", "abandoned": false, "repository": "https://github.com/UCF/github-action-testing" },
+		"ucf/test-minified": { "type": "wordpress-plugin", "abandoned": false, "repository": "https://github.com/UCF/Test-Minified" },
+		"ucf/ucf-lazyload-video-plugin": { "type": "wordpress-plugin", "abandoned": false, "repository": "https://github.com/UCF/ucf-lazyload-video-plugin" }
+	}
+}

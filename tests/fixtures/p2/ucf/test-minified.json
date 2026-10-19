@@ -1,0 +1,38 @@
+{
+	"minified": "composer/2.0",
+	"packages": {
+		"ucf/test-minified": [
+			{
+				"name": "ucf/test-minified",
+				"version": "v3.0.0-beta.1",
+				"version_normalized": "3.0.0.0-beta1",
+				"type": "wordpress-plugin",
+				"description": "Beta description",
+				"homepage": "https://www.ucf.edu/",
+				"time": "2026-09-01T00:00:00+00:00",
+				"source": { "type": "git", "url": "https://github.com/UCF/Test-Minified.git", "reference": "ccc" },
+				"dist": { "type": "zip", "url": "https://api.github.com/repos/UCF/Test-Minified/zipball/ccc", "reference": "ccc", "shasum": "" },
+				"extra": { "wordpress": { "name": "UCF Test Minified", "requires": "6.0", "tested": "6.8", "requires_php": "7.4" } }
+			},
+			{
+				"version": "v2.10.0",
+				"version_normalized": "2.10.0.0",
+				"description": "Stable description",
+				"homepage": "__unset",
+				"time": "2026-08-01T00:00:00+00:00",
+				"dist": { "type": "zip", "url": "https://api.github.com/repos/UCF/Test-Minified/zipball/bbb", "reference": "bbb", "shasum": "" }
+			},
+			{
+				"version": "2.9.0",
+				"version_normalized": "2.9.0.0",
+				"time": "2026-07-01T00:00:00+00:00",
+				"dist": { "type": "zip", "url": "https://api.github.com/repos/UCF/Test-Minified/zipball/aaa", "reference": "aaa", "shasum": "" },
+				"extra": "__unset"
+			},
+			{
+				"version": "dev-main",
+				"version_normalized": "dev-main"
+			}
+		]
+	}
+}

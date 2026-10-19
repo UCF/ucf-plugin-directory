@@ -1,0 +1,110 @@
+{
+    "packages": {
+        "ucf/ucf-lazyload-video-plugin": [
+            {
+                "name": "ucf/ucf-lazyload-video-plugin",
+                "version": "v0.1.0-alpha",
+                "version_normalized": "0.1.0.0-alpha",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/UCF/ucf-lazyload-video-plugin.git",
+                    "reference": "b124e430682207bc48433dca4c89bcd6abf670d3"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/UCF/ucf-lazyload-video-plugin/zipball/b124e430682207bc48433dca4c89bcd6abf670d3",
+                    "reference": "b124e430682207bc48433dca4c89bcd6abf670d3",
+                    "shasum": ""
+                },
+                "require": {
+                    "composer/installers": "~1.0"
+                },
+                "time": "2025-05-16T19:29:49+00:00",
+                "type": "wordpress-plugin",
+                "description": "WordPress plugin that provides lazyloading features for videos.",
+                "support": {
+                    "source": "https://github.com/UCF/ucf-lazyload-video-plugin/tree/v0.1.0-alpha",
+                    "issues": "https://github.com/UCF/ucf-lazyload-video-plugin/issues"
+                }
+            },
+            {
+                "name": "ucf/ucf-lazyload-video-plugin",
+                "version": "v0.1.1",
+                "version_normalized": "0.1.1.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/UCF/ucf-lazyload-video-plugin.git",
+                    "reference": "adfd768b911a4ea6bfb1b5fe577c6a1f79e55e39"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/UCF/ucf-lazyload-video-plugin/zipball/adfd768b911a4ea6bfb1b5fe577c6a1f79e55e39",
+                    "reference": "adfd768b911a4ea6bfb1b5fe577c6a1f79e55e39",
+                    "shasum": ""
+                },
+                "require": {
+                    "composer/installers": "~1.0"
+                },
+                "time": "2025-05-19T15:50:05+00:00",
+                "type": "wordpress-plugin",
+                "description": "WordPress plugin that provides lazyloading features for videos.",
+                "support": {
+                    "source": "https://github.com/UCF/ucf-lazyload-video-plugin/tree/v0.1.1",
+                    "issues": "https://github.com/UCF/ucf-lazyload-video-plugin/issues"
+                }
+            },
+            {
+                "name": "ucf/ucf-lazyload-video-plugin",
+                "version": "v0.1.2",
+                "version_normalized": "0.1.2.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/UCF/ucf-lazyload-video-plugin.git",
+                    "reference": "622a0bd108ff0bff93253aea03d81b50bed7d062"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/UCF/ucf-lazyload-video-plugin/zipball/622a0bd108ff0bff93253aea03d81b50bed7d062",
+                    "reference": "622a0bd108ff0bff93253aea03d81b50bed7d062",
+                    "shasum": ""
+                },
+                "require": {
+                    "composer/installers": "~1.0"
+                },
+                "time": "2025-06-03T19:38:16+00:00",
+                "type": "wordpress-plugin",
+                "description": "WordPress plugin that provides lazyloading features for videos.",
+                "support": {
+                    "source": "https://github.com/UCF/ucf-lazyload-video-plugin/tree/v0.1.2",
+                    "issues": "https://github.com/UCF/ucf-lazyload-video-plugin/issues"
+                }
+            },
+            {
+                "name": "ucf/ucf-lazyload-video-plugin",
+                "version": "v1.0.0",
+                "version_normalized": "1.0.0.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/UCF/ucf-lazyload-video-plugin.git",
+                    "reference": "c769696a3844eb934ddc8ebeb4e7033a42c4d864"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/UCF/ucf-lazyload-video-plugin/zipball/c769696a3844eb934ddc8ebeb4e7033a42c4d864",
+                    "reference": "c769696a3844eb934ddc8ebeb4e7033a42c4d864",
+                    "shasum": ""
+                },
+                "require": {
+                    "composer/installers": "~1.0"
+                },
+                "time": "2025-08-21T17:02:24+00:00",
+                "type": "wordpress-plugin",
+                "description": "WordPress plugin that provides lazyloading features for videos.",
+                "support": {
+                    "source": "https://github.com/UCF/ucf-lazyload-video-plugin/tree/v1.0.0",
+                    "issues": "https://github.com/UCF/ucf-lazyload-video-plugin/issues"
+                }
+            }
+        ]
+    }
+}

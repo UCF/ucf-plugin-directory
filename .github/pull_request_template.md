@@ -2,7 +2,7 @@
 Thank you for contributing to UCF-Plugin-Directory.
 
 Please make sure you've read our contributing guidelines:
-https://github.com/UCF/UCF-Plugin-Directory/blob/master/CONTRIBUTING.md
+https://github.com/UCF/UCF-Plugin-Directory/blob/main/CONTRIBUTING.md
 
 Provide a general summary of your changes in the Title above and fill in the template below.
 -->

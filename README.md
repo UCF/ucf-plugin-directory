@@ -2,6 +2,7 @@
 
 Browse, install, and update UCF's WordPress plugins from inside WordPress — a **UCF** tab on Plugins → Add New, update notices on the Plugins and Updates screens, and `wp plugin install <slug>` / `wp plugin update` from WP-CLI — without publishing anything to wordpress.org.
 
+> [!CAUTION]
 > **Under development — not for production sites.** This is a proof of concept (v0.1.0) awaiting approval to proceed. It covers plugins only; themes, the `wp ucf` command, and the packagist.org cutover are later phases of `PLAN.md`.
 
 ## What problem this solves

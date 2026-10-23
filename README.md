@@ -132,3 +132,7 @@ The unit tests run against fixtures in `tests/fixtures/`. These include real Sat
 - **A stale download URL** still updates into the right folder.
 - **A non-allowlisted URL** is refused.
 - **The fallback setting** gates updates on and off as expected.
+
+## License
+
+This plugin is free software, licensed under the GNU General Public License, version 3 or (at your option) any later version. The full text is in [LICENSE](LICENSE).

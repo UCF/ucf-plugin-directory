@@ -14,7 +14,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'UCF_PLUGIN_DIRECTORY__VERSION', '0.1.0' );
 define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_FILE', __FILE__ );
 define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_URL', plugins_url( basename( __DIR__ ) ) );

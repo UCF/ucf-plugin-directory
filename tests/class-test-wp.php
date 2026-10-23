@@ -205,3 +205,17 @@ function untrailingslashit( $value ) {
 function get_plugins() {
 	return Test_WP::$plugins;
 }
+
+/**
+ * Same parsing as core: the first 8 KB, one "Header: value" per line.
+ */
+function get_file_data( $file, $headers ) {
+	$contents = file_get_contents( $file, false, null, 0, 8192 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$data     = array();
+
+	foreach ( $headers as $key => $header ) {
+		$data[ $key ] = preg_match( '/^(?:[ \t]*<\?php)?[ \t\/*#@]*' . preg_quote( $header, '/' ) . ':(.*)$/mi', $contents, $match ) ? trim( $match[1] ) : '';
+	}
+
+	return $data;
+}

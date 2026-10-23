@@ -76,8 +76,8 @@ if ( ! class_exists( 'UCF_Plugin_Directory_CLI' ) ) {
 		 *
 		 * ## OPTIONS
 		 *
-		 * <search>
-		 * : Words to search for.
+		 * <search>...
+		 * : Words to search for. Quotes are optional.
 		 *
 		 * [--type=<type>]
 		 * : Only show one kind of package.

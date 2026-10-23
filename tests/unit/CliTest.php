@@ -94,6 +94,18 @@ class CliTest extends TestCase {
 		$this->assertSame( array(), $this->slugs(), 'every word must match' );
 	}
 
+	/**
+	 * WP-CLI checks arguments against the docblock before calling the
+	 * method, so calling search() directly can't catch a mismatch. The
+	 * search term must be declared repeating ("<search>...") or unquoted
+	 * multi-word searches are rejected with "Too many positional arguments".
+	 */
+	public function test_search_synopsis_accepts_multiple_words() {
+		$doc = ( new ReflectionMethod( 'UCF_Plugin_Directory_CLI', 'search' ) )->getDocComment();
+
+		$this->assertMatchesRegularExpression( '/^\s*\* <search>\.\.\.$/m', $doc );
+	}
+
 	public function test_search_with_no_matches_says_so_in_a_table() {
 		$this->cli->search( array( 'zzzz' ), array() );
 

@@ -3,7 +3,7 @@
 Browse, install, and update UCF's WordPress plugins from inside WordPress — a **UCF** tab on Plugins → Add New, update notices on the Plugins and Updates screens, and `wp plugin install <slug>` / `wp plugin update` from WP-CLI — without publishing anything to wordpress.org.
 
 > [!CAUTION]
-> **Under development — not for production sites.** This is an approved proof of concept (v0.1.0). It covers plugins only; themes and the `wp ucf` command are later phases of `PLAN.md`.
+> **Under development — not for production sites.** This is an approved proof of concept (v0.1.0). It covers plugins only; theme support is a later phase of `PLAN.md`.
 
 ## What problem this solves
 
@@ -45,6 +45,20 @@ On multisite, network-activate it. The catalog and settings are network-wide, an
 Updates always install into the folder the plugin already occupies. A plugin in `UCF-FAQ-CPT/` stays in `UCF-FAQ-CPT/` and stays active. Fresh installs go into `<slug>/`, the same folder `composer/installers` would use, so a site can move between Composer and the dashboard without plugin paths changing.
 
 If a plugin is already installed under a different folder name, the UCF tab shows **Installed** in place of **Install Now**, and a direct install attempt is refused. That way we never end up with two copies.
+
+## WP-CLI
+
+The standard commands work for UCF slugs while this plugin is active. `wp plugin install ucf-faq-cpt` installs into `ucf-faq-cpt/`, and `wp plugin update --all` includes UCF updates. On top of those, a `wp ucf` command reads the catalog:
+
+```sh
+wp ucf list                                # every UCF plugin and theme, and where each is installed
+wp ucf list --type=plugin --installed      # just the UCF plugins on this site
+wp ucf search degree                       # name, slug, and description; every word must match
+wp ucf refresh                             # fetch now; unchanged packages answer 304
+wp ucf refresh --force                     # re-download everything
+```
+
+`list` and `search` accept `--fields` and `--format` (`table`, `csv`, `json`, `yaml`, `count`). The default columns are slug, title, type, version, installed folder, installed version, and abandoned status. The installed folder is the real one, so a plugin installed by hand as `UCF-FAQ-CPT/` shows up as installed even though its slug is `ucf-faq-cpt`. If the cache is empty, `list` and `search` fetch the catalog first. `refresh` exits with an error if the repository can't be reached, which makes it safe to use in scripts; the last good catalog is kept either way.
 
 ## Security model
 

@@ -14,7 +14,8 @@ define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_URL', 'https://example.test/wp-content/plu
 define( 'UCF_TEST_FIXTURES', __DIR__ . '/fixtures' );
 
 require_once __DIR__ . '/class-test-wp.php';
+require_once __DIR__ . '/class-test-wp-cli.php';
 
-foreach ( array( 'metadata-expander', 'package', 'repository-client', 'catalog', 'plugins-api', 'updater', 'upgrader' ) as $file ) {
+foreach ( array( 'metadata-expander', 'package', 'repository-client', 'catalog', 'plugins-api', 'updater', 'upgrader', 'cli' ) as $file ) {
 	require_once dirname( __DIR__ ) . '/includes/class-' . $file . '.php';
 }

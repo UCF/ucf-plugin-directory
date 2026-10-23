@@ -39,6 +39,11 @@ require_once UCF_PLUGIN_DIRECTORY__PLUGIN_DIR . 'includes/class-upgrader.php';
 require_once UCF_PLUGIN_DIRECTORY__PLUGIN_DIR . 'includes/class-settings.php';
 require_once UCF_PLUGIN_DIRECTORY__PLUGIN_DIR . 'includes/class-plugin.php';
 
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once UCF_PLUGIN_DIRECTORY__PLUGIN_DIR . 'includes/class-cli.php';
+	WP_CLI::add_command( 'ucf', 'UCF_Plugin_Directory_CLI' );
+}
+
 register_activation_hook( __FILE__, array( 'UCF_Plugin_Directory', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'UCF_Plugin_Directory', 'deactivate' ) );
 

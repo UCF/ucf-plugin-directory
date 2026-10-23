@@ -7,6 +7,7 @@ class Test_WP {
 	public static $options  = array();
 	public static $plugins  = array();
 	public static $requests = array();
+	public static $themes   = array();
 
 	/**
 	 * Callable( $url, $args ) returning a response array or WP_Error.
@@ -18,6 +19,7 @@ class Test_WP {
 		self::$options  = array();
 		self::$plugins  = array();
 		self::$requests = array();
+		self::$themes   = array();
 		self::$http     = null;
 	}
 

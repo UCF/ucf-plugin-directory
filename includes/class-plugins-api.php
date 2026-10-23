@@ -124,7 +124,7 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Plugins_API' ) ) {
 			$packages = array_values( $this->catalog->get_plugins() );
 
 			if ( '' !== $search ) {
-				$packages = array_values( array_filter( $packages, $this->make_search_callback( $search ) ) );
+				$packages = array_values( array_filter( $packages, self::make_search_callback( $search ) ) );
 			}
 
 			usort(
@@ -150,7 +150,7 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Plugins_API' ) ) {
 		/**
 		 * Every search term must appear in the name, slug, or description.
 		 */
-		public function make_search_callback( $search ) {
+		public static function make_search_callback( $search ) {
 			$terms = preg_split( '/\s+/', strtolower( $search ) );
 
 			return function ( $package ) use ( $terms ) {

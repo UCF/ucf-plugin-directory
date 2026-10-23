@@ -50,6 +50,14 @@ class CatalogTest extends TestCase {
 		}
 	}
 
+	public function test_user_agent_reports_the_version_from_the_plugin_header() {
+		preg_match( '/^Version:\s*(\S+)/m', file_get_contents( UCF_PLUGIN_DIRECTORY__PLUGIN_FILE ), $header );
+
+		$this->assertNotEmpty( $header[1] );
+		$this->assertSame( $header[1], UCF_Plugin_Directory_Repository_Client::plugin_version() );
+		$this->assertStringStartsWith( 'UCF-Plugin-Directory/' . $header[1] . ' (WordPress/', UCF_Plugin_Directory_Repository_Client::user_agent() );
+	}
+
 	public function test_satis_catalog_uses_available_packages_and_metadata_url() {
 		$catalog = $this->catalog( self::SATIS );
 		$this->assertTrue( $catalog->refresh() );

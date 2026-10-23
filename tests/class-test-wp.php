@@ -7,6 +7,7 @@ class Test_WP {
 	public static $options  = array();
 	public static $plugins  = array();
 	public static $requests = array();
+	public static $themes   = array();
 
 	/**
 	 * Callable( $url, $args ) returning a response array or WP_Error.
@@ -18,6 +19,7 @@ class Test_WP {
 		self::$options  = array();
 		self::$plugins  = array();
 		self::$requests = array();
+		self::$themes   = array();
 		self::$http     = null;
 	}
 
@@ -202,4 +204,18 @@ function untrailingslashit( $value ) {
 
 function get_plugins() {
 	return Test_WP::$plugins;
+}
+
+/**
+ * Same parsing as core: the first 8 KB, one "Header: value" per line.
+ */
+function get_file_data( $file, $headers ) {
+	$contents = file_get_contents( $file, false, null, 0, 8192 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$data     = array();
+
+	foreach ( $headers as $key => $header ) {
+		$data[ $key ] = preg_match( '/^(?:[ \t]*<\?php)?[ \t\/*#@]*' . preg_quote( $header, '/' ) . ':(.*)$/mi', $contents, $match ) ? trim( $match[1] ) : '';
+	}
+
+	return $data;
 }

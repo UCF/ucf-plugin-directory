@@ -184,13 +184,30 @@ if ( ! class_exists( 'UCF_Plugin_Directory_Repository_Client' ) ) {
 		 */
 		public static function user_agent() {
 			$contact = apply_filters( 'ucf_plugin_directory_user_agent_contact', self::DEFAULT_CONTACT );
-			$ua      = sprintf( 'UCF-Plugin-Directory/%s (WordPress/%s', UCF_PLUGIN_DIRECTORY__VERSION, get_bloginfo( 'version' ) );
+			$ua      = sprintf( 'UCF-Plugin-Directory/%s (WordPress/%s', self::plugin_version(), get_bloginfo( 'version' ) );
 
 			if ( $contact ) {
 				$ua .= '; mailto=' . $contact;
 			}
 
 			return $ua . ')';
+		}
+
+		/**
+		 * This plugin's version, read from its header so the version lives in
+		 * one place. get_file_data() is used rather than get_plugin_data()
+		 * because it's loaded during cron, not just in admin. Cached for the
+		 * request, since a refresh sends dozens of requests.
+		 */
+		public static function plugin_version() {
+			static $version = null;
+
+			if ( null === $version ) {
+				$data    = get_file_data( UCF_PLUGIN_DIRECTORY__PLUGIN_FILE, array( 'Version' => 'Version' ) );
+				$version = '' !== $data['Version'] ? $data['Version'] : 'unknown';
+			}
+
+			return $version;
 		}
 
 		/**

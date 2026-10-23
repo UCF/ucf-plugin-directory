@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Plugin Directory
 Description: UNDER DEVELOPMENT — not for production sites. Browse, install, and update UCF WordPress plugins from the UCF Composer repository, right from the Plugins screen.
-Version: 0.1.0
+Version: 0.1.1
 Requires at least: 6.0
 Requires PHP: 7.4
 Author: UCF Web Communications

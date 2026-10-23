@@ -19,12 +19,13 @@ define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UCF_PLUGIN_DIRECTORY__PLUGIN_URL', plugins_url( basename( __DIR__ ) ) );
 
 /**
- * The Composer repository the catalog is read from. Defaults to the current
- * UCF Satis index. Set to https://repo.packagist.org/ once the ucf vendor is
- * live on packagist.org. Can be overridden in wp-config.php.
+ * The Composer repository the catalog is read from. Defaults to packagist.org,
+ * where UCF packages are published under the ucf vendor. Any Composer v2
+ * repository (e.g. a self-hosted Satis mirror) can be used instead by
+ * defining this in wp-config.php.
  */
 if ( ! defined( 'UCF_PLUGIN_DIRECTORY_REPOSITORY' ) ) {
-	define( 'UCF_PLUGIN_DIRECTORY_REPOSITORY', 'https://ucf.github.io/ucf-packagist/' );
+	define( 'UCF_PLUGIN_DIRECTORY_REPOSITORY', 'https://repo.packagist.org/' );
 }
 
 require_once UCF_PLUGIN_DIRECTORY__PLUGIN_DIR . 'includes/class-metadata-expander.php';

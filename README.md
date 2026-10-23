@@ -3,7 +3,7 @@
 Browse, install, and update UCF's WordPress plugins from inside WordPress — a **UCF** tab on Plugins → Add New, update notices on the Plugins and Updates screens, and `wp plugin install <slug>` / `wp plugin update` from WP-CLI — without publishing anything to wordpress.org.
 
 > [!CAUTION]
-> **Under development — not for production sites.** This is a proof of concept (v0.1.0) awaiting approval to proceed. It covers plugins only; themes, the `wp ucf` command, and the packagist.org cutover are later phases of `PLAN.md`.
+> **Under development — not for production sites.** This is an approved proof of concept (v0.1.0). It covers plugins only; themes and the `wp ucf` command are later phases of `PLAN.md`.
 
 ## What problem this solves
 
@@ -11,14 +11,18 @@ The problem is not distributing our plugins. Composer already does that well for
 
 ## Where the catalog comes from
 
-The catalog is any Composer v2 repository. It defaults to the current UCF Satis index, `https://ucf.github.io/ucf-packagist/`. That index holds 79 packages: 59 plugins and 20 themes. When the `ucf` vendor is live on packagist.org, point the plugin there instead:
+The catalog is packagist.org, where UCF publishes 77 packages under the `ucf` vendor. Every repo has a Packagist webhook, so a new tag is live within moments of being pushed, with no release step beyond tagging. After the plugin drops packages with no stable release, the catalog shows 57 plugins and 19 themes.
+
+The plugin finds UCF packages through `list.json?vendor=ucf`, then reads each package's static `p2/ucf/<package>.json` file, using `If-Modified-Since` so unchanged packages answer `304 Not Modified`. The first fetch of all 77 took 12 to 18 seconds in testing; a refresh where nothing changed takes about 5. The catalog is cached in about 60 KB.
+
+The plugin can read any Composer v2 repository, not just packagist.org. We kept that on purpose: if GitHub or Packagist ever became a problem, a self-hosted mirror (a Satis index, for example) could be swapped in with one line in `wp-config.php`:
 
 ```php
 // wp-config.php
-define( 'UCF_PLUGIN_DIRECTORY_REPOSITORY', 'https://repo.packagist.org/' );
+define( 'UCF_PLUGIN_DIRECTORY_REPOSITORY', 'https://example.ucf.edu/composer/' );
 ```
 
-The two sources are discovered differently, and the plugin handles both. For packagist.org it uses `list.json?vendor=ucf`; for Satis it uses `packages.json` → `available-packages`. After discovery, both paths share everything else: per-package `p2/<vendor>/<package>.json` files, `composer/2.0` minified-format expansion, and `If-Modified-Since` conditional requests. The first fetch of all 79 packages takes about 8 seconds. A refresh where nothing changed takes about 4, because every package answers `304 Not Modified`. The cached catalog is about 60 KB.
+A self-hosted repository is discovered through its `packages.json` → `available-packages` instead of `list.json`. Everything after discovery works the same way.
 
 ## Installation
 
@@ -46,7 +50,7 @@ If a plugin is already installed under a different folder name, the UCF tab show
 
 GitHub zipballs carry no checksum (`dist.shasum` is empty), so integrity rests on where the code comes from, checked at three points:
 
-- **The package name.** Only UCF maintainers can publish under `ucf/` on packagist.org, through vendor protection. The Satis index is UCF-owned outright.
+- **The package name.** Packagist protects vendor names, so only maintainers of an existing `ucf/` package can publish new ones. The `ucf` vendor is held by the team's `mcatech` account, which should have two-factor authentication turned on. A self-hosted repository, if one is ever used, must be UCF-owned.
 - **The download URL.** It must start with `https://api.github.com/repos/UCF/`, `https://codeload.github.com/UCF/`, or `https://github.com/UCF/`. Anything else is refused with a readable error.
 - **The package's source repository.** It must be under `https://github.com/UCF/`.
 
@@ -96,18 +100,21 @@ Actions: `ucf_plugin_directory_refreshed` fires after each refresh, and `ucf_plu
 
 ## Known data issues found during the proof of concept
 
-- **Header versions have drifted from tags in two plugins.** UCF Degree Search's header says 1.0.0, but its newest tag is v0.10.3. UCF Document's header says 0.2.6, but its newest tag is v0.2.5. In both cases the installed copy reports a *newer* version than anything published, so neither will be offered an update until a matching tag exists.
+- **One plugin's header version has drifted from its tags.** UCF Degree Search's header says 1.0.0, but its newest tag is v0.10.3. The installed copy reports a *newer* version than anything published, so it won't be offered an update until a matching tag exists. (UCF Document looked the same at first, but its v0.2.6 tag does exist — the old Satis index had simply missed it.)
+- **The old Satis index had fallen behind.** On packagist.org, UCF Document has v0.2.6 and Colleges Theme has v1.5.0. Satis had neither. It is another reason Composer-managed sites should move off Satis.
+- **One package is private.** `ucf/myucf-control-panel-plugin` lives in a private repo, and packagist.org hosts only public ones, so it isn't in the catalog. Sites that install it with Composer need a direct `vcs` repository entry for it, with GitHub credentials, before Satis is retired.
 - **Some packages have no stable release.** `ucf/ucf-news-block-theme` has only pre-release tags, so it doesn't appear in the catalog.
 - **A package's type can change across releases.** `ucf/main-site-utilities-plugin` was a `wp-cli-package` at 1.0.0 and a `wordpress-plugin` from v3 onward. The type is read from the resolved release, so this works, but it's worth knowing.
 
 ## Rollout checklist (work outside this plugin)
 
-1. **Finish the packagist.org migration.** All active UCF packages should be live under `ucf/` with GitHub hooks synced, and obsolete ones marked abandoned. Then set `UCF_PLUGIN_DIRECTORY_REPOSITORY` to `https://repo.packagist.org/` and drop the Satis repository entry from Composer-managed sites.
-2. **Add `Update URI: https://packagist.org/packages/ucf/<package>`** to every UCF plugin header, starting with the most widely deployed. This is what turns updates on without the fallback setting.
-3. **Fix version drift.** Make sure each plugin's header `Version` matches the tag it ships in (see Known data issues above).
-4. **Optionally add `extra.wordpress`** to each package's `composer.json` (`name`, `requires`, `tested`, `requires_php`). The plugin already reads these and shows them on the cards.
-5. **Optionally attach a built release zip** with the correct top-level folder name to each GitHub release.
-6. **Publish this plugin** as `ucf/ucf-plugin-directory`, so it can be installed once and then keep itself updated through its own `Update URI`.
+1. ~~**Move UCF packages to packagist.org.**~~ Done 2026-10-22: 77 packages are live under `ucf/`, each with an active webhook. `ucf/github-action-testing` was left out on purpose; the private MyUCF plugin can't be listed.
+2. **Mark obsolete packages abandoned** on packagist.org, naming a replacement where one exists. They drop off the UCF tab but keep getting updates on sites that already have them.
+3. **Publish this plugin** as `ucf/ucf-plugin-directory`, so it can be installed once and then keep itself updated through its own `Update URI`.
+4. **Add `Update URI: https://packagist.org/packages/ucf/<package>`** to every UCF plugin header, starting with the most widely deployed. This is what turns updates on without the fallback setting.
+5. **Fix version drift.** Make sure each plugin's header `Version` matches the tag it ships in (see Known data issues above).
+6. **Retire Satis.** Composer-managed sites drop the `ucf.github.io/ucf-packagist` repository entry, then the `trigger-packagist-update.yml` workflow comes out of each repo and the index is shut down. Until then, Satis keeps Composer sites working, so there's no rush.
+7. **Optionally add `extra.wordpress`** to each package's `composer.json` (`name`, `requires`, `tested`, `requires_php`). The plugin already reads these and shows them on the cards.
 
 ## Development
 
